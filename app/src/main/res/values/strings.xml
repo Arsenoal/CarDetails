@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">CarDetailsPage</string>
+    
+    <string name="main_home">Home</string>
+    <string name="main_vehicle">Vehicle</string>
+    <string name="main_location">Location</string>
+    <string name="main_more">More</string>
+
+    <string name="doors">Doors</string>
+    <string name="engine">Engine</string>
+    <string name="start">start</string>
+    <string name="stop">stop</string>
+
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="please_confirm_unlock">Please confirm that you want to unlock the doors of %s</string>
+    <string name="please_confirm_lock">Please confirm that you want to lock the doors of %s</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes_unlock">Yes, Unlock</string>
+    <string name="yes_lock">Yes, Lock</string>
+
+    <string name="main_update">Updated %s ago</string>
+</resources>
