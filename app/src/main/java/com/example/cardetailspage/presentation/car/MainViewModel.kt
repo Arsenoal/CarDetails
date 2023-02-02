@@ -1,4 +1,4 @@
-package com.example.cardetailspage.car.presentation.main
+package com.example.cardetailspage.presentation.car
 
 import androidx.lifecycle.MutableLiveData
 import com.example.cardetailspage.base.BaseViewModel

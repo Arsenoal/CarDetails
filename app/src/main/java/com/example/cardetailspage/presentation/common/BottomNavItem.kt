@@ -1,4 +1,4 @@
-package com.example.cardetailspage.car.presentation.common
+package com.example.cardetailspage.presentation.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

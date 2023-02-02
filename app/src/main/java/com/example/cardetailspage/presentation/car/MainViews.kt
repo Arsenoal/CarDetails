@@ -1,4 +1,4 @@
-package com.example.cardetailspage.car.presentation.main
+package com.example.cardetailspage.presentation.car
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image

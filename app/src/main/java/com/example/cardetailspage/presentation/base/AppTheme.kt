@@ -1,4 +1,4 @@
-package com.example.cardetailspage.car.presentation.base
+package com.example.cardetailspage.presentation.base
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.darkColors

@@ -1,4 +1,4 @@
-package com.example.cardetailspage.car.presentation.main
+package com.example.cardetailspage.presentation.car
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
@@ -22,8 +22,8 @@ import com.example.cardetailspage.R
 import com.example.cardetailspage.entity.car.CarDetails
 import com.example.cardetailspage.entity.car.DoorState
 import com.example.cardetailspage.entity.car.empty
-import com.example.cardetailspage.car.presentation.base.AppTheme
-import com.example.cardetailspage.car.presentation.common.BottomNavItem
+import com.example.cardetailspage.presentation.base.AppTheme
+import com.example.cardetailspage.presentation.common.BottomNavItem
 import com.example.cardetailspage.repository.common.asString
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.delay
