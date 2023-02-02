@@ -1,6 +1,6 @@
-package com.example.cardetailspage.domain.car.cardetails
+package com.example.cardetailspage.repository.car.carDetails
 
-interface CarDetailsUseCase {
+interface CarDetailsRepo {
     suspend fun getCarName(id: String): String
     suspend fun getCarImage(id: String): String
     suspend fun getDateUpdated(id: String): Long

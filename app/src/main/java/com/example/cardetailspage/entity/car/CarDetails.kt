@@ -1,5 +1,6 @@
 package com.example.cardetailspage.entity.car
 
+import java.io.Serializable
 
 data class CarDetails(
     val id: String,
@@ -9,11 +10,11 @@ data class CarDetails(
     val engineState: EngineState,
     var dateUpdated: Long = System.currentTimeMillis(),
     val image: String = ""
-) {
+) : Serializable {
     companion object
 }
 
-sealed class DoorState {
+sealed class DoorState: Serializable {
     object Locked: DoorState()
 
     object Unlocked: DoorState()
@@ -23,7 +24,7 @@ sealed class DoorState {
     object NotDefined: DoorState()
 }
 
-sealed class EngineState {
+sealed class EngineState: Serializable {
     object Started: EngineState()
 
     object Stopped: EngineState()

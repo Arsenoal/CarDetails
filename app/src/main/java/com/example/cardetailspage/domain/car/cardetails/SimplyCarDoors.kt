@@ -1,7 +1,7 @@
 package com.example.cardetailspage.domain.car.cardetails
 
 import com.example.cardetailspage.entity.car.DoorState
-import com.example.cardetailspage.car.repository.car.carDetails.CarDoorsRepo
+import com.example.cardetailspage.repository.car.carDetails.CarDoorsRepo
 
 class SimplyCarDoors(private val carDoorsRepo: CarDoorsRepo): CarDoorsUseCase {
     override suspend fun getCarDoorsState(id: String) = carDoorsRepo.getCarDoorsState(id)

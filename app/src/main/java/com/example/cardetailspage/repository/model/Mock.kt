@@ -1,4 +1,4 @@
-package com.example.cardetailspage.car.repository.model
+package com.example.cardetailspage.repository.model
 
 object Mock {
     private const val CAR_ID = "4e7933c0-a082-11ed-a8fc-0242ac120002"

@@ -1,4 +1,4 @@
-package com.example.cardetailspage.car.repository.car.carDetails
+package com.example.cardetailspage.repository.car.carDetails
 
 import com.example.cardetailspage.entity.car.DoorState
 

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.example.cardetailspage.R
 import com.example.cardetailspage.entity.car.CarDetails
 import com.example.cardetailspage.entity.car.DoorState
-import com.example.cardetailspage.car.repository.common.asString
+import com.example.cardetailspage.repository.common.asString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -107,14 +108,9 @@ fun DoorsView(
                                         isShowUnlockDialog = false
                                         isUnlockedLoading = true
                                         isLockedLoading = false
-                                        onDoorStateChange.invoke(
-                                            currentCar.id,
-                                            DoorState.Processing)
                                         currentCar.doorState = DoorState.Processing
                                         scope.launch {
-                                            delay(5 * 1000)
-                                            isUnlockedLoading = false
-                                            isLockedLoading = false
+                                            delay(4800)
                                             withContext(Dispatchers.Main) {
                                                 onDoorStateChange.invoke(
                                                     currentCar.id,
@@ -122,6 +118,9 @@ fun DoorsView(
                                                 )
                                                 currentCar.doorState = DoorState.Unlocked
                                             }
+                                            delay(200)
+                                            isUnlockedLoading = false
+                                            isLockedLoading = false
                                         }
                                     }) {
                                     Text(
@@ -157,7 +156,7 @@ fun DoorsView(
                                 horizontalArrangement = Arrangement.End
                             ) {
                                 Text(
-                                    modifier = Modifier.clickable { isShowUnlockDialog = false },
+                                    modifier = Modifier.clickable { isShowLockDialog = false },
                                     color = MaterialTheme.colors.secondaryVariant,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 16.sp,
@@ -172,15 +171,9 @@ fun DoorsView(
                                         isShowLockDialog = false
                                         isLockedLoading = true
                                         isUnlockedLoading = false
-                                        onDoorStateChange.invoke(
-                                            currentCar.id,
-                                            DoorState.Processing
-                                        )
                                         currentCar.doorState = DoorState.Processing
                                         scope.launch {
-                                            delay(5 * 1000)
-                                            isUnlockedLoading = false
-                                            isLockedLoading = false
+                                            delay(4800)
                                             withContext(Dispatchers.Main) {
                                                 onDoorStateChange.invoke(
                                                     currentCar.id,
@@ -188,6 +181,9 @@ fun DoorsView(
                                                 )
                                                 currentCar.doorState = DoorState.Locked
                                             }
+                                            delay(200)
+                                            isUnlockedLoading = false
+                                            isLockedLoading = false
                                         }
                                     }) {
                                     Text(
@@ -208,7 +204,9 @@ fun DoorsView(
                         .padding(0.dp, 0.dp, 5.dp, 0.dp)
                         .size(70.dp)
                         .clickable {
-                            if (carDoorState != DoorState.Processing) { isShowLockDialog = true }
+                            if (carDoorState != DoorState.Processing) {
+                                isShowLockDialog = true
+                            }
                         },
                     shape = RoundedCornerShape(35.dp),
                     backgroundColor =
@@ -237,7 +235,9 @@ fun DoorsView(
                         .padding(5.dp, 0.dp, 0.dp, 0.dp)
                         .size(70.dp)
                         .clickable {
-                            if (carDoorState != DoorState.Processing) { isShowUnlockDialog = true }
+                            if (carDoorState != DoorState.Processing) {
+                                isShowUnlockDialog = true
+                            }
                         },
                     shape = RoundedCornerShape(35.dp),
                     backgroundColor =

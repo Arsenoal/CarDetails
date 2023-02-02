@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.cardetailspage.di.DomainModule
 import com.example.cardetailspage.di.PresentationModule
 import com.example.cardetailspage.di.RepoModule
+import com.example.cardetailspage.di.dbModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
@@ -14,7 +15,11 @@ class CarDetailsApplication: Application() {
         startKoin {
             androidContext(applicationContext)
             loadKoinModules(
-                listOf(RepoModule, DomainModule, PresentationModule)
+                listOf(
+                    dbModule(applicationContext),
+                    RepoModule,
+                    DomainModule,
+                    PresentationModule)
             )
         }
     }
