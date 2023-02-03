@@ -2,19 +2,13 @@ package com.example.cardetailspage.presentation.car
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,6 +20,7 @@ import com.example.cardetailspage.entity.car.CarDetails
 import com.example.cardetailspage.entity.car.DoorState
 import com.example.cardetailspage.entity.car.copyWithDateLoss
 import com.example.cardetailspage.entity.car.getLastUpdateTime
+import com.example.cardetailspage.presentation.common.DotsIndicator
 import com.example.cardetailspage.repository.common.asString
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -44,7 +39,7 @@ fun HomePage(
 
     LazyColumn(modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 75.dp)) {
         item {
-            var pagerState = rememberPagerState()
+            val pagerState = rememberPagerState()
 
             var currentCar by remember { mutableStateOf(carDetails[0]) }
 
@@ -175,8 +170,6 @@ fun HomePage(
                     currentCar = currentCar) { id, doorState ->
                     onSnackbarText.invoke(doorState.asString())
                     onDoorStateChange.invoke(id, doorState)
-                    currentCar.doorState = doorState
-                    carDoorState = doorState
                 }
 
                 EngineView()
@@ -184,32 +177,4 @@ fun HomePage(
         }
     }
 
-}
-
-@Composable
-fun DotsIndicator(
-    modifier: Modifier,
-    totalDots : Int,
-    selectedIndex : Int,
-    selectedColor: Color,
-    unSelectedColor: Color,
-){
-    LazyRow(
-        modifier = modifier
-    ) {
-
-        items(totalDots) { index ->
-            Box(
-                modifier = Modifier
-                    .height(4.dp)
-                    .width(35.dp)
-                    .clip(RoundedCornerShape(2.dp))
-                    .background(if (index == selectedIndex) selectedColor else unSelectedColor)
-            )
-
-            if (index != totalDots - 1) {
-                Spacer(modifier = Modifier.padding(horizontal = 2.dp))
-            }
-        }
-    }
 }

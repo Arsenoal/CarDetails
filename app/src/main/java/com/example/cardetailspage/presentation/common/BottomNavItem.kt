@@ -8,13 +8,19 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.cardetailspage.R
 
 @Composable
 fun BottomNavItem(
@@ -48,6 +54,32 @@ fun BottomNavItem(
             text = itemText,
             color = itemFillColor,
             fontSize = 14.sp
+        )
+    }
+}
+@Composable
+fun BottomNavItems() {
+    Row(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+        BottomNavItem(
+            stringResource(id = R.string.main_home),
+            Icons.Filled.Home,
+            isSelected = true
+        )
+        BottomNavItem(
+            stringResource(id = R.string.main_vehicle),
+            Icons.Filled.Home
+        )
+        BottomNavItem(
+            stringResource(id = R.string.main_location),
+            Icons.Filled.LocationOn
+        )
+        BottomNavItem(
+            stringResource(id = R.string.main_more),
+            Icons.Filled.MoreHoriz
         )
     }
 }

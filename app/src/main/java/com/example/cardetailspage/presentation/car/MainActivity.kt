@@ -7,10 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +19,7 @@ import com.example.cardetailspage.entity.car.CarDetails
 import com.example.cardetailspage.entity.car.DoorState
 import com.example.cardetailspage.entity.car.empty
 import com.example.cardetailspage.presentation.base.AppTheme
-import com.example.cardetailspage.presentation.common.BottomNavItem
+import com.example.cardetailspage.presentation.common.BottomNavItems
 import com.example.cardetailspage.repository.common.asString
 import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.delay
@@ -45,37 +41,7 @@ class MainActivity : AppCompatActivity() {
 
                 Scaffold(
                     scaffoldState = scaffoldState,
-                    bottomBar = {
-                        BottomAppBar(backgroundColor = MaterialTheme.colors.background) {
-
-                            //For future dynamic approach we can define current  selected state and in isSelected
-                            // variable initialization we can compare current state with BottomNavItem state, and we can change
-                            // the state on item click, also the same state should be used to draw current page
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxSize(),
-                                horizontalArrangement = Arrangement.SpaceAround
-                            ) {
-                                BottomNavItem(
-                                    stringResource(id = R.string.main_home),
-                                    Icons.Filled.Home,
-                                    isSelected = true
-                                )
-                                BottomNavItem(
-                                    stringResource(id = R.string.main_vehicle),
-                                    Icons.Filled.Home
-                                )
-                                BottomNavItem(
-                                    stringResource(id = R.string.main_location),
-                                    Icons.Filled.LocationOn
-                                )
-                                BottomNavItem(
-                                    stringResource(id = R.string.main_more),
-                                    Icons.Filled.MoreHoriz
-                                )
-                            }
-                        }
-                    }
+                    bottomBar = { BottomAppBar(backgroundColor = MaterialTheme.colors.background) { BottomNavItems() } }
                 ) {
                     var carDetails by remember { mutableStateOf(listOf(CarDetails.empty())) }
 

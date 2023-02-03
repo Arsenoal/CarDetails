@@ -12,6 +12,8 @@ interface CarDetailsDao {
 
     @Query("SELECT * FROM cardetailsroom")
     suspend fun getAll(): List<CarDetailsRoom>
+    @Query("SELECT * FROM cardetailsroom WHERE id = :carId")
+    suspend fun getCarById(carId: String): CarDetailsRoom
 
     @Query("SELECT id FROM cardetailsroom")
     suspend fun getCarIds(): List<String>

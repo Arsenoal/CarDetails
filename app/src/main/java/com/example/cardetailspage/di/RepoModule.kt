@@ -14,10 +14,6 @@ val RepoModule = module {
 
     single<CarDetailsRepo> { SimplyCarDetailsRepo(get()) }
 
-    single<CarDoorsRepo> { SimplyCarDoorsRepo(get()) }
-
-    single<CarFuelRepo> { SimplyCarFuelRepo(get()) }
-
     single<InitCarsLocalDB> { SimplyInitCars(get()) }
 
     single<InitStateRepo> { SimplyInitState(get()) }
