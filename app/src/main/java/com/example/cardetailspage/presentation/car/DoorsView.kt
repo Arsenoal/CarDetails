@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -36,7 +37,10 @@ fun DoorsView(
                 fontWeight = FontWeight.Bold
             )
 
-            Divider(modifier = Modifier.padding(8.dp, 0.dp).width(2.dp).height(20.dp),
+            Divider(modifier = Modifier
+                .padding(8.dp, 0.dp)
+                .width(2.dp)
+                .height(20.dp),
                 color = MaterialTheme.colors.primaryVariant,
                 thickness = 2.dp)
 
@@ -54,13 +58,56 @@ fun DoorsView(
 
             Row(modifier = Modifier.padding(10.dp)) {
 
-                var isLockedLoading by remember { mutableStateOf(false) }
+                var isLockedLoading by rememberSaveable { mutableStateOf(false) }
+                var isUnlockedLoading by rememberSaveable { mutableStateOf(false) }
 
-                var isUnlockedLoading by remember { mutableStateOf(false) }
+                var isLocking by rememberSaveable { mutableStateOf(false) }
+                var isUnlocking by rememberSaveable { mutableStateOf(false) }
 
                 var isShowUnlockDialog by remember { mutableStateOf(false) }
-
                 var isShowLockDialog by remember { mutableStateOf(false) }
+
+                if(isUnlocking) {
+                    isShowUnlockDialog = false
+                    isUnlockedLoading = true
+                    isLockedLoading = false
+                    LaunchedEffect(key1 = "Unlocking") {
+                        withContext(Dispatchers.Main) {
+                            onDoorStateChange.invoke(currentCar.id, DoorState.Processing)
+                            currentCar.doorState = DoorState.Processing
+                        }
+                        delay(4800)
+                        withContext(Dispatchers.Main) {
+                            onDoorStateChange.invoke(currentCar.id, DoorState.Unlocked)
+                            currentCar.doorState = DoorState.Unlocked
+                        }
+                        delay(200)
+                        isUnlockedLoading = false
+                        isLockedLoading = false
+                        isUnlocking = false
+                    }
+                }
+
+                if(isLocking) {
+                    isShowLockDialog = false
+                    isLockedLoading = true
+                    isUnlockedLoading = false
+                    LaunchedEffect(key1 = "Locking") {
+                        withContext(Dispatchers.Main) {
+                            onDoorStateChange.invoke(currentCar.id, DoorState.Processing)
+                            currentCar.doorState = DoorState.Processing
+                        }
+                        delay(4800)
+                        withContext(Dispatchers.Main) {
+                            onDoorStateChange.invoke(currentCar.id, DoorState.Locked)
+                            currentCar.doorState = DoorState.Locked
+                        }
+                        delay(200)
+                        isUnlockedLoading = false
+                        isLockedLoading = false
+                        isLocking = false
+                    }
+                }
 
                 if(isShowUnlockDialog) {
                     DoorStateAlertDialog(
@@ -69,25 +116,7 @@ fun DoorsView(
                         message = stringResource(id = R.string.please_confirm_unlock, currentCar.name),
                         negativeButtonText = stringResource(id = R.string.cancel),
                         positiveButtonText = stringResource(id = R.string.yes_unlock),
-                        onPositiveButtonClick = {
-                            isShowUnlockDialog = false
-                            isUnlockedLoading = true
-                            isLockedLoading = false
-                            scope.launch {
-                                withContext(Dispatchers.Main) {
-                                    onDoorStateChange.invoke(currentCar.id, DoorState.Processing)
-                                    currentCar.doorState = DoorState.Processing
-                                }
-                                delay(4800)
-                                withContext(Dispatchers.Main) {
-                                    onDoorStateChange.invoke(currentCar.id, DoorState.Unlocked)
-                                    currentCar.doorState = DoorState.Unlocked
-                                }
-                                delay(200)
-                                isUnlockedLoading = false
-                                isLockedLoading = false
-                            }
-                        }
+                        onPositiveButtonClick = { isUnlocking = true }
                     )
                 }
 
@@ -98,25 +127,7 @@ fun DoorsView(
                         message = stringResource(id = R.string.please_confirm_lock, currentCar.name),
                         negativeButtonText = stringResource(id = R.string.cancel),
                         positiveButtonText = stringResource(id = R.string.yes_lock),
-                        onPositiveButtonClick = {
-                            isShowLockDialog = false
-                            isLockedLoading = true
-                            isUnlockedLoading = false
-                            scope.launch {
-                                withContext(Dispatchers.Main) {
-                                    onDoorStateChange.invoke(currentCar.id, DoorState.Processing)
-                                    currentCar.doorState = DoorState.Processing
-                                }
-                                delay(4800)
-                                withContext(Dispatchers.Main) {
-                                    onDoorStateChange.invoke(currentCar.id, DoorState.Locked)
-                                    currentCar.doorState = DoorState.Locked
-                                }
-                                delay(200)
-                                isUnlockedLoading = false
-                                isLockedLoading = false
-                            }
-                        }
+                        onPositiveButtonClick = { isLocking = true }
                     )
                 }
 
@@ -124,7 +135,11 @@ fun DoorsView(
                     modifier = Modifier
                         .padding(0.dp, 0.dp, 5.dp, 0.dp)
                         .size(70.dp)
-                        .clickable { if (carDoorState != DoorState.Processing) { isShowLockDialog = true } },
+                        .clickable {
+                            if (carDoorState != DoorState.Processing) {
+                                isShowLockDialog = true
+                            }
+                        },
                     shape = RoundedCornerShape(35.dp),
                     backgroundColor =
                     if(isLockedLoading) MaterialTheme.colors.background
@@ -139,15 +154,23 @@ fun DoorsView(
                         )
                     } else {
                         Image(
-                            modifier = Modifier.size(60.dp).padding(15.dp),
+                            modifier = Modifier
+                                .size(60.dp)
+                                .padding(15.dp),
                             painter = painterResource(id = R.drawable.act_lock),
                             contentDescription = null)
                     }
                 }
 
                 Card(
-                    modifier = Modifier.padding(5.dp, 0.dp, 0.dp, 0.dp).size(70.dp)
-                        .clickable { if (carDoorState != DoorState.Processing) { isShowUnlockDialog = true } },
+                    modifier = Modifier
+                        .padding(5.dp, 0.dp, 0.dp, 0.dp)
+                        .size(70.dp)
+                        .clickable {
+                            if (carDoorState != DoorState.Processing) {
+                                isShowUnlockDialog = true
+                            }
+                        },
                     shape = RoundedCornerShape(35.dp),
                     backgroundColor =
                     if(isUnlockedLoading) MaterialTheme.colors.background
@@ -162,7 +185,9 @@ fun DoorsView(
                         )
                     } else {
                         Image(
-                            modifier = Modifier.size(60.dp).padding(15.dp),
+                            modifier = Modifier
+                                .size(60.dp)
+                                .padding(15.dp),
                             painter = painterResource(id = R.drawable.act_unlock),
                             contentDescription = null)
                     }
