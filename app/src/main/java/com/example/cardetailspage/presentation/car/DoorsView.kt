@@ -73,8 +73,11 @@ fun DoorsView(
                             isShowUnlockDialog = false
                             isUnlockedLoading = true
                             isLockedLoading = false
-                            currentCar.doorState = DoorState.Processing
                             scope.launch {
+                                withContext(Dispatchers.Main) {
+                                    onDoorStateChange.invoke(currentCar.id, DoorState.Processing)
+                                    currentCar.doorState = DoorState.Processing
+                                }
                                 delay(4800)
                                 withContext(Dispatchers.Main) {
                                     onDoorStateChange.invoke(currentCar.id, DoorState.Unlocked)
@@ -99,8 +102,11 @@ fun DoorsView(
                             isShowLockDialog = false
                             isLockedLoading = true
                             isUnlockedLoading = false
-                            currentCar.doorState = DoorState.Processing
                             scope.launch {
+                                withContext(Dispatchers.Main) {
+                                    onDoorStateChange.invoke(currentCar.id, DoorState.Processing)
+                                    currentCar.doorState = DoorState.Processing
+                                }
                                 delay(4800)
                                 withContext(Dispatchers.Main) {
                                     onDoorStateChange.invoke(currentCar.id, DoorState.Locked)
